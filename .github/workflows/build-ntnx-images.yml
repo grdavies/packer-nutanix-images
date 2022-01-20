@@ -64,6 +64,6 @@ jobs:
             os_ver: "79"
             os_partitioning: "lvm"
     steps:
-      - name: packer init ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.pkr.hcl
+      - name: packer build ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.pkr.hcl
         working-directory: ${{ matrix.os }}/
         run: /usr/bin/packer build ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.pkr.hcl
