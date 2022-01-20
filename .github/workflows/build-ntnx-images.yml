@@ -69,7 +69,7 @@ jobs:
         working-directory: ${{ matrix.os }}/
         run: /usr/bin/packer build ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.pkr.hcl
 
-  upload-qcow2-to-artifactory:
+  upload-qcow2:
     runs-on: [ self-hosted, packer ]
     needs: packer-build
       matrix:
