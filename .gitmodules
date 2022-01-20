@@ -1,0 +1,16 @@
+[submodule "centos/scripts/linux-common"]
+	path = centos/scripts/linux-common
+	url = https://github.com/grdavies/packer-scripts-linux-common.git
+	branch = main
+[submodule "centos/scripts/nutanix"]
+	path = centos/scripts/nutanix
+	url = https://github.com/grdavies/packer-scripts-nutanix-bp-centos.git
+	branch = main
+[submodule "centos/scripts/linux-sysprep"]
+	path = centos/scripts/linux-sysprep
+	url = https://github.com/DanHam/packer-virt-sysprep.git
+	branch = main
+[submodule "centos/scripts/centos"]
+	path = centos/scripts/centos
+	url = https://github.com/grdavies/packer-scripts-centos.git
+	branch = main
