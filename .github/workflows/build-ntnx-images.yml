@@ -34,11 +34,11 @@ jobs:
         include:
           - os_type: "linux"
             os: "centos"
-            os_ver: "79"
+            os_ver: "7.9"
             os_partitioning: "basic"
           - os_type: "linux"
             os: "centos"
-            os_ver: "79"
+            os_ver: "7.9"
             os_partitioning: "lvm"
     steps:
       - name: packer init ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.pkr.hcl
@@ -57,13 +57,36 @@ jobs:
         include:
           - os_type: "linux"
             os: "centos"
-            os_ver: "79"
+            os_ver: "7.9"
             os_partitioning: "basic"
           - os_type: "linux"
             os: "centos"
-            os_ver: "79"
+            os_ver: "7.9"
             os_partitioning: "lvm"
     steps:
       - name: packer build ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.pkr.hcl
         working-directory: ${{ matrix.os }}/
         run: /usr/bin/packer build ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.pkr.hcl
+
+  upload-qcow2-to-artifactory:
+    runs-on: [ self-hosted, packer ]
+    needs: packer-build
+      matrix:
+        include:
+          - os_type: "linux"
+            os: "centos"
+            os_ver: "7.9"
+            os_partitioning: "basic"
+          - os_type: "linux"
+            os: "centos"
+            os_ver: "7.9"
+            os_partitioning: "lvm"
+    steps:
+      - name: Setup JFrog CLI
+        uses: jfrog/setup-jfrog-cli@v2
+        env:
+          JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
+      - name: Ping Artifactory Serrver
+        run: jf rt ping
+      - name: Upload disk image
+        run: jf rt u packer-nutanix-images/packer-nutanix-images/${{ matrix.os }}/output/ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.qcow2 ntnx-images --project ntnx --flat --target-props "os_type=${{ matrix.os_type }};os=${{ matrix.os }};os_ver=${{ matrix.os_ver }};os_arch=x86_64"
