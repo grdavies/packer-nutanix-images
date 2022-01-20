@@ -10,7 +10,7 @@ packer {
 source "qemu" "ntnx-centos-79-x86_64" {
   iso_url            = "http://centos-distro.cavecreek.net/7.9.2009/isos/x86_64/CentOS-7-x86_64-Minimal-2009.iso"
   iso_checksum       = "file:http://centos-distro.cavecreek.net/7.9.2009/isos/x86_64/sha256sum.txt"
-  output_directory   = "output/ntnx-centos-79-x86_64"
+  output_directory   = "output/ntnx-centos-7.9-x86_64"
   shutdown_command   = "sudo -S shutdown -P now"
   disk_size          = "100G"
   format             = "qcow2"
@@ -19,7 +19,7 @@ source "qemu" "ntnx-centos-79-x86_64" {
   ssh_username       = "root"
   ssh_password       = "nutanix/4u"
   ssh_timeout        = "60m"
-  vm_name            = "ntnx-centos-79-x86_64.qcow2"
+  vm_name            = "ntnx-centos-7.9-x86_64.qcow2"
   net_device         = "virtio-net"
   disk_interface     = "virtio"
   boot_wait          = "10s"
