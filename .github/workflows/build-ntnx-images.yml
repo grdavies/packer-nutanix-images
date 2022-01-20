@@ -88,7 +88,9 @@ jobs:
         uses: jfrog/setup-jfrog-cli@v2
         env:
           JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_1 }}
-      - name: Ping Artifactory Serrver
-        run: jf rt ping
-      - name: Upload disk image
-        run: jf rt u packer-nutanix-images/packer-nutanix-images/${{ matrix.os }}/output/ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.qcow2 ntnx-images --project ntnx --flat --target-props "os_type=${{ matrix.os_type }};os=${{ matrix.os }};os_ver=${{ matrix.os_ver }};os_arch=x86_64"
+      - name: Get JFrog CLI Version
+        run: jfrog --version
+      - name: Ping Artifactory Server
+        run: jfrog rt ping
+      - name: Upload ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.qcow2
+        run: jfrog rt u packer-nutanix-images/packer-nutanix-images/${{ matrix.os }}/output/ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.qcow2 ntnx-images --project ntnx --flat --target-props "os_type=${{ matrix.os_type }};os=${{ matrix.os }};os_ver=${{ matrix.os_ver }};os_arch=x86_64"
