@@ -47,3 +47,23 @@ jobs:
       - name: packer validate ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.pkr.hcl
         working-directory: ${{ matrix.os }}/
         run: /usr/bin/packer validate ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.pkr.hcl
+
+  packer-build:
+    needs: packer-init
+    runs-on: [ self-hosted, packer ]
+    strategy:
+      max-parallel: 1
+      matrix:
+        include:
+          - os_type: "linux"
+            os: "centos"
+            os_ver: "79"
+            os_partitioning: "basic"
+          - os_type: "linux"
+            os: "centos"
+            os_ver: "79"
+            os_partitioning: "lvm"
+    steps:
+      - name: packer init ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.pkr.hcl
+        working-directory: ${{ matrix.os }}/
+        run: /usr/bin/packer build ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.pkr.hcl
