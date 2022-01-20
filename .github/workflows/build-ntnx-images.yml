@@ -42,8 +42,8 @@ jobs:
             os_partitioning: "lvm"
     steps:
       - name: packer init ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.pkr.hcl
-        working-directory: $GITHUB_WORKSPACE/${{ matrix.os }}
+        working-directory: ${{ matrix.os }}/
         run: /usr/bin/packer init ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.pkr.hcl
       - name: packer validate ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.pkr.hcl
-        working-directory: $GITHUB_WORKSPACE/${{ matrix.os }}
+        working-directory: ${{ matrix.os }}/
         run: /usr/bin/packer validate ntnx-${{ matrix.os }}-${{ matrix.os_ver }}-${{ matrix.os_partitioning }}-x86_64.pkr.hcl
