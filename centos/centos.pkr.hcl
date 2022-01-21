@@ -8,6 +8,7 @@ packer {
 }
 
 source "qemu" "centos-basic-partitioning" {
+  type                = qemu
   iso_url             = var.iso_url
   iso_checksum        = "file:${var.iso_checksum_url}"
   output_directory    = "output/${var.os}-${var.os_ver}-x86_64"
@@ -34,6 +35,7 @@ source "qemu" "centos-basic-partitioning" {
 }
 
 source "qemu" "centos-lvm-partitioning" {
+  type                = qemu
   iso_url             = var.iso_url
   iso_checksum        = "file:${var.iso_checksum_url}"
   output_directory    = "output/${var.os}-${var.os_ver}-x86_64-lvm"
@@ -95,7 +97,7 @@ build {
   name = "step2-ntnx-centos-basic"
 
   source "centos-basic-partitioning" {
-    type                = "qemu"
+    type                = qemu
     disk_image          = true
     iso_url             = "output/ntnx-${var.os}-${var.os_ver}-x86_64.qcow2"
     output_directory    = "output/ntnx-${var.os}-${var.os_ver}-ahv-x86_64"
@@ -197,7 +199,7 @@ build {
   name = "step2-ntnx-centos-lvm"
 
   source "centos-basic-partitioning" {
-    type                = "qemu"
+    type                = qemu
     disk_image          = true
     iso_url             = "output/${var.os}-${var.os_ver}-x86_64-lvm.qcow2"
     output_directory    = "output/ntnx-${var.os}-${var.os_ver}-ahv-x86_64-lvm"
