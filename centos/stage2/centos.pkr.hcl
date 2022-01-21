@@ -15,6 +15,7 @@ source "qemu" "stage2-ntnx-centos-basic-partitioning" {
   cpus                = var.cpus
   memory              = var.memory
   shutdown_command    = var.shutdown_command
+  disk_size           = var.disk_size
   format              = "qcow2"
   accelerator         = "kvm"
   http_directory      = "http"
@@ -39,6 +40,7 @@ source "qemu" "stage2-ntnx-centos-lvm-partitioning" {
   cpus                = var.cpus
   memory              = var.memory
   shutdown_command    = var.shutdown_command
+  disk_size           = var.disk_size
   format              = "qcow2"
   accelerator         = "kvm"
   http_directory      = "http"
