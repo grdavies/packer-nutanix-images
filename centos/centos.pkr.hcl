@@ -95,6 +95,7 @@ build {
   name = "step2-ntnx-centos-basic"
 
   source "centos-basic-partitioning" {
+    type                = "qemu"
     disk_image          = true
     iso_url             = "output/ntnx-${var.os}-${var.os_ver}-x86_64.qcow2"
     output_directory    = "output/ntnx-${var.os}-${var.os_ver}-ahv-x86_64"
@@ -196,6 +197,7 @@ build {
   name = "step2-ntnx-centos-lvm"
 
   source "centos-basic-partitioning" {
+    type                = "qemu"
     disk_image          = true
     iso_url             = "output/${var.os}-${var.os_ver}-x86_64-lvm.qcow2"
     output_directory    = "output/ntnx-${var.os}-${var.os_ver}-ahv-x86_64-lvm"
