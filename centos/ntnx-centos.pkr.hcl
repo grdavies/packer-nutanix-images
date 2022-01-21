@@ -9,7 +9,7 @@ packer {
 
 source "qemu" "centos" {
   iso_url            = "{{ user `iso_url` }}"
-  iso_checksum       = "{{ user `iso_checksum` }}"
+  iso_checksum       = "file:{{ user `iso_checksum_url` }}"
   output_directory   = "output/ntnx-${source.name}"
   shutdown_command   = "{{ user `shutdown_command` }}"
   disk_size          = "{{ user `disk_size` }}"
