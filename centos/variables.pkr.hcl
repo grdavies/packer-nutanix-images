@@ -13,7 +13,7 @@ variable "iso_url" {
   type        = string
   description = "URL for the distribution minimal install ISO"
 }
-variable "iso_checksum" {
+variable "iso_checksum_url" {
   type        = string
   description = "URL for the distribution minimal install ISO checksum"
 }
