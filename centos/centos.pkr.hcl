@@ -7,10 +7,10 @@ packer {
   }
 }
 
-source "qemu" "centos" {
+source "qemu" "ntnx-centos" {
   iso_url            = var.iso_url
   iso_checksum       = "file:${var.iso_checksum_url}"
-  output_directory   = "output/${var.vm_name}"
+  output_directory   = "output/ntnx-centos-7.9-ahv-x86_64"
   shutdown_command   = var.shutdown_command
   disk_size          = var.disk_size
   format             = "qcow2"
@@ -19,11 +19,11 @@ source "qemu" "centos" {
   ssh_username       = "root"
   ssh_password       = "nutanix/4u"
   ssh_timeout        = "60m"
-  vm_name            = "${var.vm_name}.qcow2"
+  vm_name            = "ntnx-${os}-${os_ver}-ahv-x86_64.qcow2"
   net_device         = "virtio-net"
   disk_interface     = "virtio"
   boot_wait          = "10s"
-  boot_command       = ["<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${var.ks_file}<enter><wait>"]
+  boot_command       = ["<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-7.9-ahv-x86_64.cfg<enter><wait>"]
   headless           = true
   disk_detect_zeroes = "unmap"
   skip_compaction    = false
@@ -31,10 +31,10 @@ source "qemu" "centos" {
   vnc_bind_address   = "0.0.0.0"
 }
 
-source "qemu" "ntnx-centos" {
+source "qemu" "ntnx-centos-hardened" {
   iso_url            = var.iso_url
   iso_checksum       = "file:${var.iso_checksum_url}"
-  output_directory   = "output/ntnx-${var.vm_name}"
+  output_directory   = "output/ntnx-${source.name}"
   shutdown_command   = var.shutdown_command
   disk_size          = var.disk_size
   format             = "qcow2"
@@ -43,17 +43,66 @@ source "qemu" "ntnx-centos" {
   ssh_username       = "root"
   ssh_password       = "nutanix/4u"
   ssh_timeout        = "60m"
-  vm_name            = "${var.vm_name}.qcow2"
+  vm_name            = "ntnx-${os}-${os_ver}-ahv-x86_64-hardened.qcow2"
   net_device         = "virtio-net"
   disk_interface     = "virtio"
   boot_wait          = "10s"
-  boot_command       = ["<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${var.ks_file}<enter><wait>"]
+  boot_command       = ["<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-7.9-ahv-x86_64-hardened.cfg<enter><wait>"]
   headless           = true
   disk_detect_zeroes = "unmap"
   skip_compaction    = false
   disk_compression   = true
   vnc_bind_address   = "0.0.0.0"
 }
+
+source "qemu" "ntnx-centos-lvm" {
+  iso_url            = var.iso_url
+  iso_checksum       = "file:${var.iso_checksum_url}"
+  output_directory   = "output/ntnx-${source.name}"
+  shutdown_command   = var.shutdown_command
+  disk_size          = var.disk_size
+  format             = "qcow2"
+  accelerator        = "kvm"
+  http_directory     = "http"
+  ssh_username       = "root"
+  ssh_password       = "nutanix/4u"
+  ssh_timeout        = "60m"
+  vm_name            = "ntnx-${os}-${os_ver}-ahv-x86_64-lvm"
+  net_device         = "virtio-net"
+  disk_interface     = "virtio"
+  boot_wait          = "10s"
+  boot_command       = ["<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-7.9-ahv-x86_64-lvm.cfg<enter><wait>"]
+  headless           = true
+  disk_detect_zeroes = "unmap"
+  skip_compaction    = false
+  disk_compression   = true
+  vnc_bind_address   = "0.0.0.0"
+}
+
+source "qemu" "ntnx-centos-lvm-hardened" {
+  iso_url            = var.iso_url
+  iso_checksum       = "file:${var.iso_checksum_url}"
+  output_directory   = "output/ntnx-${source.name}"
+  shutdown_command   = var.shutdown_command
+  disk_size          = var.disk_size
+  format             = "qcow2"
+  accelerator        = "kvm"
+  http_directory     = "http"
+  ssh_username       = "root"
+  ssh_password       = "nutanix/4u"
+  ssh_timeout        = "60m"
+  vm_name            = "ntnx-${os}-${os_ver}-ahv-x86_64-lvm-hardened.qcow2"
+  net_device         = "virtio-net"
+  disk_interface     = "virtio"
+  boot_wait          = "10s"
+  boot_command       = ["<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos-7.9-ahv-x86_64-lvm-hardened.cfg<enter><wait>"]
+  headless           = true
+  disk_detect_zeroes = "unmap"
+  skip_compaction    = false
+  disk_compression   = true
+  vnc_bind_address   = "0.0.0.0"
+}
+
 
 build {
   sources = ["source.qemu.centos", "source.qemu.ntnx-centos"]
