@@ -105,7 +105,12 @@ source "qemu" "ntnx-centos-lvm-hardened" {
 
 
 build {
-  sources = [ "source.qemu.ntnx-centos", "ntnx-centos-hardened", "ntnx-centos-lvm", "ntnx-centos-lvm-hardened" ]
+  sources = [
+    "source.qemu.ntnx-centos", 
+    "source.qemu.ntnx-centos-hardened",
+    "source.qemu.ntnx-centos-lvm",
+    "source.qemu.ntnx-centos-lvm-hardened"
+  ]
 
   # Post Processors
   post-processors {
