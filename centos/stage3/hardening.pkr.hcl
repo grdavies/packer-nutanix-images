@@ -7,11 +7,11 @@ packer {
   }
 }
 
-source "qemu" "stage2-ntnx-centos-basic-partitioning" {
+source "qemu" "stage3-ntnx-centos-hardened" {
   disk_image          = true
-  iso_url             = "stage1/kvm/${var.os}-${var.os_ver}-basic.qcow2"
-  iso_checksum        = "file:stage1/kvm/${var.os}-${var.os_ver}-basic.md5.checksum"
-  output_directory    = "output/kvm"
+  iso_url             = "stage2/kvm/ntnx-${var.os}-${var.os_ver}-ahv-x86_64.qcow2"
+  iso_checksum        = "file:stage1/kvm/ntnx-${var.os}-${var.os_ver}-basic.md5.checksum"
+  output_directory    = "stage3/kvm"
   cpus                = var.cpus
   memory              = var.memory
   shutdown_command    = var.shutdown_command
@@ -22,7 +22,7 @@ source "qemu" "stage2-ntnx-centos-basic-partitioning" {
   ssh_username        = "root"
   ssh_password        = "nutanix/4u"
   ssh_timeout         = "60m"
-  vm_name             = "ntnx-${var.os}-${var.os_ver}-ahv-x86_64.qcow2"
+  vm_name             = "hardened-ntnx-${var.os}-${var.os_ver}-ahv-x86_64.qcow2"
   net_device          = "virtio-net"
   disk_interface      = "virtio"
   boot_wait           = "10s"
@@ -32,11 +32,11 @@ source "qemu" "stage2-ntnx-centos-basic-partitioning" {
   disk_compression    = true
 }
 
-source "qemu" "stage2-ntnx-centos-lvm-partitioning" {
+source "qemu" "stage3-ntnx-centos-lvm-hardened" {
   disk_image          = true
-  iso_url             = "stage1/kvm/${var.os}-${var.os_ver}-lvm.qcow2"
+  iso_url             = "stage2/kvm/ntnx-${var.os}-${var.os_ver}-ahv-lvm-x86_64.qcow2"
   iso_checksum        = "file:stage1/kvm/${var.os}-${var.os_ver}-lvm.md5.checksum"
-  output_directory    = "output/kvm"
+  output_directory    = "stage3/kvm"
   cpus                = var.cpus
   memory              = var.memory
   shutdown_command    = var.shutdown_command
@@ -47,7 +47,7 @@ source "qemu" "stage2-ntnx-centos-lvm-partitioning" {
   ssh_username        = "root"
   ssh_password        = "nutanix/4u"
   ssh_timeout         = "60m"
-  vm_name             = "ntnx-${var.os}-${var.os_ver}-ahv-lvm-x86_64.qcow2"
+  vm_name             = "hardened-ntnx-${var.os}-${var.os_ver}-ahv-lvm-x86_64.qcow2"
   net_device          = "virtio-net"
   disk_interface      = "virtio"
   boot_wait           = "10s"
@@ -76,24 +76,10 @@ build {
   }
 
   sources = [
-    "source.qemu.stage2-ntnx-centos-basic-partitioning",
-    "source.qemu.stage2-ntnx-centos-lvm-partitioning",
+    "source.qemu.stage3-ntnx-centos-hardened",
+    "source.qemu.stage3-ntnx-centos-lvm-hardened",
   ]
 
-  # Run scripts to apply Nutanix best practices
-  provisioner "shell" {
-    execute_command   = "sudo -E bash '{{ .Path }}'"
-    scripts           = [
-                          "scripts/nutanix/ntnx_disable_transparent_hugepage.sh",
-                          "scripts/nutanix/ntnx_grub2_mkconfig.sh",
-                          "scripts/nutanix/ntnx_iscsi_settings.sh",
-                          "scripts/nutanix/ntnx_kernel_settings.sh",
-                          "scripts/nutanix/ntnx_set_disk_timeout.sh",
-                          "scripts/nutanix/ntnx_set_max_sectors_kb.sh",
-                          "scripts/nutanix/ntnx_set_noop.sh",
-                        ]
-    expect_disconnect = false
-  }
 
   # Run scripts to apply OS hardening
   provisioner "shell" {
@@ -148,7 +134,6 @@ build {
                           "scripts/linux-sysprep/sysprep-op-tmp-files.sh",
                           "scripts/linux-sysprep/sysprep-op-logfiles.sh",
                           "scripts/linux-sysprep/sysprep-op-bash-history.sh",
-                          "scripts/linux-common/reset-root-password.sh",
                          ]
     expect_disconnect  = false
   }
