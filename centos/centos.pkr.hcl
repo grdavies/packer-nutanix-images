@@ -9,7 +9,7 @@ packer {
 
 source "qemu" "centos" {
   iso_url            = var.iso_url
-  iso_checksum       = var.iso_checksum_url
+  iso_checksum       = "file:${var.iso_checksum_url}"
   output_directory   = "output/${var.vm_name}"
   shutdown_command   = var.shutdown_command
   disk_size          = var.disk_size
@@ -33,7 +33,7 @@ source "qemu" "centos" {
 
 source "qemu" "ntnx-centos" {
   iso_url            = var.iso_url
-  iso_checksum       = var.iso_checksum_url
+  iso_checksum       = "file:${var.iso_checksum_url}"
   output_directory   = "output/ntnx-${var.vm_name}"
   shutdown_command   = var.shutdown_command
   disk_size          = var.disk_size
