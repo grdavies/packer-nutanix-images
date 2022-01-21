@@ -75,11 +75,6 @@ build {
       keep_input_artifact = true
       output              = "stage1/kvm/${var.os}-${var.os_ver}-${source.name}.{{.ChecksumType}}.checksum"
     }
-
-    post-processor "manifest" {
-      output = "stage1/kvm/manifest.json"
-    }
-
   }
 
   # Run updates
