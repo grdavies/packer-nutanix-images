@@ -19,7 +19,7 @@ source "qemu" "ntnx-centos" {
   ssh_username       = "root"
   ssh_password       = "nutanix/4u"
   ssh_timeout        = "60m"
-  vm_name            = "ntnx-${os}-${os_ver}-ahv-x86_64.qcow2"
+  vm_name            = "ntnx-${var.os}-${var.os_ver}-ahv-x86_64.qcow2"
   net_device         = "virtio-net"
   disk_interface     = "virtio"
   boot_wait          = "10s"
@@ -43,7 +43,7 @@ source "qemu" "ntnx-centos-hardened" {
   ssh_username       = "root"
   ssh_password       = "nutanix/4u"
   ssh_timeout        = "60m"
-  vm_name            = "ntnx-${os}-${os_ver}-ahv-x86_64-hardened.qcow2"
+  vm_name            = "ntnx-${var.os}-${var.os_ver}-ahv-x86_64-hardened.qcow2"
   net_device         = "virtio-net"
   disk_interface     = "virtio"
   boot_wait          = "10s"
@@ -67,7 +67,7 @@ source "qemu" "ntnx-centos-lvm" {
   ssh_username       = "root"
   ssh_password       = "nutanix/4u"
   ssh_timeout        = "60m"
-  vm_name            = "ntnx-${os}-${os_ver}-ahv-x86_64-lvm"
+  vm_name            = "ntnx-${var.os}-${var.os_ver}-ahv-x86_64-lvm"
   net_device         = "virtio-net"
   disk_interface     = "virtio"
   boot_wait          = "10s"
@@ -91,7 +91,7 @@ source "qemu" "ntnx-centos-lvm-hardened" {
   ssh_username       = "root"
   ssh_password       = "nutanix/4u"
   ssh_timeout        = "60m"
-  vm_name            = "ntnx-${os}-${os_ver}-ahv-x86_64-lvm-hardened.qcow2"
+  vm_name            = "ntnx-${var.os}-${var.os_ver}-ahv-x86_64-lvm-hardened.qcow2"
   net_device         = "virtio-net"
   disk_interface     = "virtio"
   boot_wait          = "10s"
@@ -106,7 +106,7 @@ source "qemu" "ntnx-centos-lvm-hardened" {
 
 build {
   sources = [
-    "source.qemu.ntnx-centos", 
+    "source.qemu.ntnx-centos",
     "source.qemu.ntnx-centos-hardened",
     "source.qemu.ntnx-centos-lvm",
     "source.qemu.ntnx-centos-lvm-hardened"
