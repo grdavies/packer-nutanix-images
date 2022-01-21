@@ -17,14 +17,6 @@ variable "iso_checksum_url" {
   type        = string
   description = "URL for the distribution minimal install ISO checksum"
 }
-//variable "ks_file" {
-//  type        = string
-//  description = "The filename for the kickstart file to be used in creating the image"
-//}
-//variable "vm_name" {
-//  type        = string
-//  description = "The vm name of the image"
-//}
 variable "os" {
   type        = string
   description = "The name of the distribution for the image"
