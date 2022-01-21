@@ -8,22 +8,22 @@ packer {
 }
 
 source "qemu" "centos" {
-  iso_url            = "{{ user `iso_url` }}"
-  iso_checksum       = "{{ user `iso_checksum` }}"
-  output_directory   = "output/${source.name}"
-  shutdown_command   = "sudo -S shutdown -P now"
-  disk_size          = "100G"
+  iso_url            = var.iso_url
+  iso_checksum       = var.iso_checksum
+  output_directory   = "output/${var.vm_name}"
+  shutdown_command   = var.shutdown_command
+  disk_size          = var.disk_size
   format             = "qcow2"
   accelerator        = "kvm"
   http_directory     = "http"
   ssh_username       = "root"
   ssh_password       = "nutanix/4u"
   ssh_timeout        = "60m"
-  vm_name            = "ntnx-centos-7.9-x86_64-lvm.qcow2"
+  vm_name            = "${var.vm_name}.qcow2"
   net_device         = "virtio-net"
   disk_interface     = "virtio"
   boot_wait          = "10s"
-  boot_command       = ["<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{ user `ks_file` }}<enter><wait>"]
+  boot_command       = ["<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${var.ks_file}<enter><wait>"]
   headless           = true
   disk_detect_zeroes = "unmap"
   skip_compaction    = false
