@@ -97,7 +97,7 @@ source "qemu" "stage2-ntnx-centos-basic-partitioning" {
   disk_image          = true
   iso_url             = "output/${var.os}-${var.os_ver}-basic/${var.os}-${var.os_ver}-basic.qcow2"
   iso_checksum        = "none"
-  output_directory    = "output/ntnx-${var.os}-${var.os_ver}-ahv-x86_64"
+  output_directory    = "../output/kvm/ntnx-${var.os}-${var.os_ver}-ahv-x86_64"
   cpus                = var.cpus
   memory              = var.memory
   shutdown_command    = var.shutdown_command
@@ -121,7 +121,7 @@ source "qemu" "stage2-ntnx-centos-lvm-partitioning" {
   disk_image          = true
   iso_url             = "output/${var.os}-${var.os_ver}-lvm/${var.os}-${var.os_ver}-lvm.qcow2"
   iso_checksum        = "none"
-  output_directory    = "output/ntnx-${var.os}-${var.os_ver}-ahv-x86_64"
+  output_directory    = "../output/kvm/ntnx-${var.os}-${var.os_ver}-ahv-x86_64"
   cpus                = var.cpus
   memory              = var.memory
   shutdown_command    = var.shutdown_command
