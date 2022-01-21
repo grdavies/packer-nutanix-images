@@ -25,3 +25,9 @@ variable "os_ver" {
   type        = string
   description = "The OS version for the image"
 }
+variable "cpus" {
+  default = 2
+}
+variable "memory" {
+  default = 1024
+}
