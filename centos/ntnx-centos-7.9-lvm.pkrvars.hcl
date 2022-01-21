@@ -9,10 +9,3 @@ ks_file           = "centos-7.9-ahv-x86_64-lvm.cfg"
 vm_name           = "centos-7.9-ahv-x86_64-lvm"
 os                = "centos"
 os_ver            = "7.9"
-nutanix_script_files  = [ "scripts/nutanix/ntnx_kernel_settings.sh",
-  "scripts/nutanix/ntnx_set_max_sectors_kb.sh",
-  "scripts/nutanix/ntnx_set_disk_timeout.sh",
-  "scripts/nutanix/ntnx_iscsi_settings.sh",
-  "scripts/nutanix/ntnx_set_noop.sh",
-  "scripts/nutanix/ntnx_disable_transparent_hugepage.sh"
-]
