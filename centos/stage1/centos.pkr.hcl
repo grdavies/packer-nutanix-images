@@ -10,6 +10,7 @@ packer {
 source "qemu" "stage1_basic_partitions" {
   iso_url             = var.iso_url
   iso_checksum        = "file:${var.iso_checksum_url}"
+  output_directory   = "stage1/kvm"
   cpus                = var.cpus
   memory              = var.memory
   shutdown_command    = var.shutdown_command
@@ -20,7 +21,7 @@ source "qemu" "stage1_basic_partitions" {
   ssh_username        = "root"
   ssh_password        = "nutanix/4u"
   ssh_timeout         = "60m"
-  vm_name             = "${var.os}-${var.os_ver}-basic.qcow2"
+  vm_name             = "stage1_basic_partitions.qcow2"
   net_device          = "virtio-net"
   disk_interface      = "virtio"
   boot_wait           = "10s"
@@ -35,6 +36,7 @@ source "qemu" "stage1_basic_partitions" {
 source "qemu" "stage1_lvm_partitions" {
   iso_url             = var.iso_url
   iso_checksum        = "file:${var.iso_checksum_url}"
+  output_directory   = "stage1/kvm"
   cpus                = var.cpus
   memory              = var.memory
   shutdown_command    = var.shutdown_command
@@ -45,7 +47,7 @@ source "qemu" "stage1_lvm_partitions" {
   ssh_username        = "root"
   ssh_password        = "nutanix/4u"
   ssh_timeout         = "60m"
-  vm_name             = "${var.os}-${var.os_ver}-lvm.qcow2"
+  vm_name             = "stage1_lvm_partitions.qcow2"
   net_device          = "virtio-net"
   disk_interface      = "virtio"
   boot_wait           = "10s"
@@ -67,16 +69,17 @@ build {
   ]
 
   # Post Processors
-  post-processor "manifest" {
-    output = "stage-1-manifest.json"
-  }
-
   post-processors {
     post-processor "checksum" {
       checksum_types      = [ "md5" ]
       keep_input_artifact = true
-      output              = "${var.os}-${var.os_ver}-basic.{{.ChecksumType}}.checksum"
+      output              = "stage1/kvm/${source.name}.{{.ChecksumType}}.checksum"
     }
+    
+    post-processor "manifest" {
+      output = "stage1/kvm/manifest.json"
+    }
+
   }
 
   # Run updates
