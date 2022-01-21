@@ -7,10 +7,10 @@ packer {
   }
 }
 
-source "qemu" "stage1_basic_partitions" {
+source "qemu" "basic" {
   iso_url             = var.iso_url
   iso_checksum        = "file:${var.iso_checksum_url}"
-  output_directory   = "stage1/kvm"
+  output_directory    = "stage1/kvm"
   cpus                = var.cpus
   memory              = var.memory
   shutdown_command    = var.shutdown_command
@@ -21,7 +21,7 @@ source "qemu" "stage1_basic_partitions" {
   ssh_username        = "root"
   ssh_password        = "nutanix/4u"
   ssh_timeout         = "60m"
-  vm_name             = "stage1_basic_partitions.qcow2"
+  vm_name             = "${var.os}-${var.os_ver}-${source.name}.qcow2"
   net_device          = "virtio-net"
   disk_interface      = "virtio"
   boot_wait           = "10s"
@@ -33,10 +33,10 @@ source "qemu" "stage1_basic_partitions" {
   vnc_bind_address    = "0.0.0.0"
 }
 
-source "qemu" "stage1_lvm_partitions" {
+source "qemu" "lvm" {
   iso_url             = var.iso_url
   iso_checksum        = "file:${var.iso_checksum_url}"
-  output_directory   = "stage1/kvm"
+  output_directory    = "stage1/kvm"
   cpus                = var.cpus
   memory              = var.memory
   shutdown_command    = var.shutdown_command
@@ -47,7 +47,7 @@ source "qemu" "stage1_lvm_partitions" {
   ssh_username        = "root"
   ssh_password        = "nutanix/4u"
   ssh_timeout         = "60m"
-  vm_name             = "stage1_lvm_partitions.qcow2"
+  vm_name             = "${var.os}-${var.os_ver}-${source.name}.qcow2"
   net_device          = "virtio-net"
   disk_interface      = "virtio"
   boot_wait           = "10s"
@@ -64,8 +64,8 @@ build {
   name = "stage1-base-images"
 
   sources = [
-    "source.qemu.stage1_basic_partitions",
-    "source.qemu.stage1_lvm_partitions",
+    "source.qemu.basic",
+    "source.qemu.lvm",
   ]
 
   # Post Processors
@@ -73,9 +73,9 @@ build {
     post-processor "checksum" {
       checksum_types      = [ "md5" ]
       keep_input_artifact = true
-      output              = "stage1/kvm/${source.name}.{{.ChecksumType}}.checksum"
+      output              = "stage1/kvm/${var.os}-${var.os_ver}-${source.name}.{{.ChecksumType}}.checksum"
     }
-    
+
     post-processor "manifest" {
       output = "stage1/kvm/manifest.json"
     }
