@@ -94,7 +94,7 @@ build {
   # Create base OS images for further customization
   name = "step2-ntnx-centos-basic"
 
-  source "qemu" "centos-basic-partitioning" {
+  source "centos-basic-partitioning" {
     disk_image          = true
     iso_url             = "output/ntnx-${var.os}-${var.os_ver}-x86_64.qcow2"
     output_directory    = "output/ntnx-${var.os}-${var.os_ver}-ahv-x86_64"
@@ -195,7 +195,7 @@ build {
   # Create base OS images for further customization
   name = "step2-ntnx-centos-lvm"
 
-  source "qemu" "centos-basic-partitioning" {
+  source "centos-basic-partitioning" {
     disk_image          = true
     iso_url             = "output/${var.os}-${var.os_ver}-x86_64-lvm.qcow2"
     output_directory    = "output/ntnx-${var.os}-${var.os_ver}-ahv-x86_64-lvm"
