@@ -9,9 +9,9 @@ packer {
 
 source "qemu" "stage2-ntnx-centos-basic-partitioning" {
   disk_image          = true
-  iso_url             = "../stage1/kvm/${var.os}-${var.os_ver}-basic.qcow2"
-  iso_checksum        = "file:../stage1/kvm/${var.os}-${var.os_ver}-basic.md5.checksum"
-  output_directory    = "../output/kvm"
+  iso_url             = "/stage1/kvm/${var.os}-${var.os_ver}-basic.qcow2"
+  iso_checksum        = "file:/stage1/kvm/${var.os}-${var.os_ver}-basic.md5.checksum"
+  output_directory    = "/output/kvm"
   cpus                = var.cpus
   memory              = var.memory
   shutdown_command    = var.shutdown_command
@@ -33,9 +33,9 @@ source "qemu" "stage2-ntnx-centos-basic-partitioning" {
 
 source "qemu" "stage2-ntnx-centos-lvm-partitioning" {
   disk_image          = true
-  iso_url             = "../stage1/kvm/${var.os}-${var.os_ver}-lvm.qcow2"
-  iso_checksum        = "file:../stage1/kvm/${var.os}-${var.os_ver}-lvm.md5.checksum"
-  output_directory    = "../output/kvm"
+  iso_url             = "/stage1/kvm/${var.os}-${var.os_ver}-lvm.qcow2"
+  iso_checksum        = "file:/stage1/kvm/${var.os}-${var.os_ver}-lvm.md5.checksum"
+  output_directory    = "/output/kvm"
   cpus                = var.cpus
   memory              = var.memory
   shutdown_command    = var.shutdown_command
