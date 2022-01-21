@@ -1,0 +1,85 @@
+# This is a basic workflow to help you get started with Actions
+
+name: packer-ntnx-centos-79-x86_64
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  #push:
+    #branches: [ main ]
+
+  #schedule:
+    # * is a special character in YAML so you have to quote this string
+    #- cron:  '30 1 * * *'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  init:
+    runs-on: self-hosted
+    steps:
+      - name: pull latest repo
+        working-directory: /home/nutanix/packer/centos7
+        run: git pull --recurse-submodules
+      - name: Checkout submodules
+        working-directory: /home/nutanix/packer/centos7
+        run: git submodule update --init --recursive
+      - name: packer init ntnx-centos-79-x86_64.pkr.hcl
+        working-directory: /home/nutanix/packer/centos7
+        run: packer init ntnx-centos-79-x86_64.pkr.hcl
+
+  validate:
+    runs-on: self-hosted
+    needs: init
+    steps:
+      - name: packer validate ntnx-centos-79-x86_64.pkr.hcl
+        working-directory: /home/nutanix/packer/centos7
+        run: packer validate ntnx-centos-79-x86_64.pkr.hcl
+
+  build:
+    runs-on: self-hosted
+    needs: validate
+    steps:
+      - name: packer build ntnx-centos-79-x86_64.pkr.hcl
+        working-directory: /home/nutanix/packer/centos7
+        run: packer build ntnx-centos-79-x86_64.pkr.hcl
+
+  upload-to-artifactory:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: Setup JFrog CLI
+        uses: jfrog/setup-jfrog-cli@v2
+        env:
+          JF_ARTIFACTORY_1: ${{ secrets.JF_ARTIFACTORY_SECRET_HPOC_PHX_POC258 }}
+      - name: Ping Artifactory Serrver
+        run: jf rt ping
+      - name: Upload disk image
+        run: jf rt u /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.qcow2 ntnx-images --project ntnx  --project ntnx --flat --target-props "os_type=linux;os=centos;os_ver=7;os_arch=x86_64"
+      # - name: Upload qcow2 disk image checksum
+      #   run: jfrog rt u /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.md5.checksum ntnx-images --project ntnx
+
+  capture-build:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: Archive ntnx-centos-79-x86_64.qcow2
+        uses: actions/upload-artifact@v2
+        with:
+          name: ntnx-centos-79-x86_64.qcow2
+          path: /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.qcow2
+      - name: Archive ntnx-centos79-x86_64.md5.checksum
+        uses: actions/upload-artifact@v2
+        with:
+          name: ntnx-centos-79-x86_64.md5.checksum
+          path: /home/nutanix/packer/centos7/ntnx-centos-79-x86_64/ntnx-centos-79-x86_64.md5.checksum
+
+  cleanup-build:
+    runs-on: self-hosted
+    needs: [upload-to-artifactory, capture-build]
+    steps:
+      - name: remove build artifacts
+        working-directory: /home/nutanix/packer/centos7
+        run: rm -rf ntnx-centos-79-x86_64
