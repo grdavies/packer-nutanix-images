@@ -74,9 +74,9 @@ build {
       output              = "stage${var.build_stage}/kvm/${var.os}-${var.os_ver}-${source.name}.{{.ChecksumType}}.checksum"
     }
 
-    post-processor "manifest" {
-      output = "stage${var.build_stage}/kvm/manifest.json"
-    }
+    #post-processor "manifest" {
+    #  output = "stage${var.build_stage}/kvm/manifest.json"
+    #}
 
   }
 
@@ -102,38 +102,5 @@ build {
                           "scripts/centos/security_hardening_aide.sh",
                         ]
     expect_disconnect = false
-  }
-
-  # Run scripts to prepare to seal the OS image
-  provisioner "shell" {
-    execute_command    = "sudo -E bash '{{ .Path }}'"
-    scripts            = [
-                          "scripts/linux-common/cleanup-network.sh",
-                          "scripts/linux-sysprep/sysprep-op-dhcp-client-state.sh",
-                         ]
-    expect_disconnect  = true
-  }
-  provisioner "shell" {
-    execute_command    = "sudo -E bash '{{ .Path }}'"
-    scripts            = [
-                          "scripts/linux-common/cleanup-disk-space.sh",
-                          "scripts/linux-common/cleanup-rpm-db.sh",
-                          "scripts/linux-common/get_cloud-init_config.sh",
-                          "scripts/linux-common/cleanup-network.sh",
-                          "scripts/centos/security_hardening_sshd.sh",
-                          "scripts/linux-sysprep/sysprep-op-cloud-init.sh",
-                          "scripts/linux-sysprep/sysprep-op-crash-data.sh",
-                          "scripts/linux-sysprep/sysprep-op-firewall-rules.sh",
-                          "scripts/centos/security_selinux_set_enforcing.sh",
-                          "scripts/linux-sysprep/sysprep-op-machine-id.sh",
-                          "scripts/linux-sysprep/sysprep-op-package-manager-cache.sh",
-                          "scripts/linux-sysprep/sysprep-op-package-manager-db.sh",
-                          "scripts/linux-sysprep/sysprep-op-ssh-hostkeys.sh",
-                          "scripts/linux-sysprep/sysprep-op-yum-uuid.sh",
-                          "scripts/linux-sysprep/sysprep-op-tmp-files.sh",
-                          "scripts/linux-sysprep/sysprep-op-logfiles.sh",
-                          "scripts/linux-sysprep/sysprep-op-bash-history.sh",
-                         ]
-    expect_disconnect  = false
   }
 }

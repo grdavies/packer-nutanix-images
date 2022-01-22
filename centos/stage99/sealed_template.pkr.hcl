@@ -126,9 +126,9 @@ build {
       output              = "stage${var.build_stage}/kvm/${var.os}-${var.os_ver}-${source.name}.{{.ChecksumType}}.checksum"
     }
 
-    post-processor "manifest" {
-      output = "stage${var.build_stage}/kvm/manifest.json"
-    }
+    #post-processor "manifest" {
+    #  output = "stage${var.build_stage}/kvm/manifest.json"
+    #}
 
   }
 
