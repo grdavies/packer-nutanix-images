@@ -10,7 +10,7 @@ packer {
 source "qemu" "basic-ntnx-template" {
   disk_image          = true
   iso_url             = "stage2/kvm/ntnx-${var.os}-${var.os_ver}-basic-ntnx-x86_64.qcow2"
-  iso_checksum        = "file:stage2/kvm/${var.os}-${var.os_ver}-basic-ntnx.md5.checksum"
+  iso_checksum        = "file:stage2/kvm/build.md5.checksum"
   output_directory    = "stage${var.build_stage}/kvm"
   cpus                = var.cpus
   memory              = var.memory
@@ -35,7 +35,7 @@ source "qemu" "basic-ntnx-template" {
 source "qemu" "lvm-ntnx-template" {
   disk_image          = true
   iso_url             = "stage2/kvm/ntnx-${var.os}-${var.os_ver}-lvm-ntnx-x86_64.qcow2"
-  iso_checksum        = "file:stage2/kvm/${var.os}-${var.os_ver}-lvm-ntnx.md5.checksum"
+  iso_checksum        = "file:stage2/kvm/build.md5.checksum"
   output_directory    = "stage${var.build_stage}/kvm"
   cpus                = var.cpus
   memory              = var.memory
@@ -60,7 +60,7 @@ source "qemu" "lvm-ntnx-template" {
 source "qemu" "basic-ntnx-hardened-template" {
   disk_image          = true
   iso_url             = "stage3/kvm/ntnx-${var.os}-${var.os_ver}-basic-ntnx-hardened-x86_64.qcow2"
-  iso_checksum        = "file:stage3/kvm/${var.os}-${var.os_ver}-basic-ntnx-hardened.md5.checksum"
+  iso_checksum        = "file:stage3/kvm/build.md5.checksum"
   output_directory    = "stage${var.build_stage}/kvm"
   cpus                = var.cpus
   memory              = var.memory
@@ -85,7 +85,7 @@ source "qemu" "basic-ntnx-hardened-template" {
 source "qemu" "lvm-ntnx-hardened-template" {
   disk_image          = true
   iso_url             = "stage3/kvm/ntnx-${var.os}-${var.os_ver}-lvm-ntnx-hardened-x86_64.qcow2"
-  iso_checksum        = "file:stage3/kvm/${var.os}-${var.os_ver}-lvm-ntnx-hardened.md5.checksum"
+  iso_checksum        = "file:stage3/kvm/build.md5.checksum"
   output_directory    = "stage${var.build_stage}/kvm"
   cpus                = var.cpus
   memory              = var.memory
@@ -123,7 +123,7 @@ build {
     post-processor "checksum" {
       checksum_types      = [ "md5" ]
       keep_input_artifact = true
-      output              = "stage${var.build_stage}/kvm/${var.os}-${var.os_ver}-${source.name}.{{.ChecksumType}}.checksum"
+      output              = "stage${var.build_stage}/kvm/build.{{.ChecksumType}}.checksum"
     }
 
     #post-processor "manifest" {

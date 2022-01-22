@@ -10,7 +10,7 @@ packer {
 source "qemu" "basic-ntnx-hardened" {
   disk_image          = true
   iso_url             = "stage2/kvm/${var.os}-${var.os_ver}-basic-ntnx.qcow2"
-  iso_checksum        = "file:stage2/kvm/${var.os}-${var.os_ver}-basic-ntnx.md5.checksum"
+  iso_checksum        = "file:stage2/kvm/build.md5.checksum"
   output_directory    = "stage${var.build_stage}/kvm"
   cpus                = var.cpus
   memory              = var.memory
@@ -35,7 +35,7 @@ source "qemu" "basic-ntnx-hardened" {
 source "qemu" "lvm-ntnx-hardened" {
   disk_image          = true
   iso_url             = "stage2/kvm/${var.os}-${var.os_ver}-lvm-ntnx.qcow2"
-  iso_checksum        = "file:stage2/kvm/${var.os}-${var.os_ver}-lvm-ntnx.md5.checksum"
+  iso_checksum        = "file:stage2/kvm/build.md5.checksum"
   output_directory    = "stage${var.build_stage}/kvm"
   cpus                = var.cpus
   memory              = var.memory
@@ -71,7 +71,7 @@ build {
     post-processor "checksum" {
       checksum_types      = [ "md5" ]
       keep_input_artifact = true
-      output              = "stage${var.build_stage}/kvm/${var.os}-${var.os_ver}-${source.name}.{{.ChecksumType}}.checksum"
+      output              = "stage${var.build_stage}/kvm/build.{{.ChecksumType}}.checksum"
     }
 
     #post-processor "manifest" {
