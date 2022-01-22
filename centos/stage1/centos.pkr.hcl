@@ -73,7 +73,7 @@ build {
     post-processor "checksum" {
       checksum_types      = [ "md5" ]
       keep_input_artifact = true
-      output              = "stage${var.build_stage}/kvm/${source.name/${var.os}-${var.os_ver}-${source.name}.qcow2.{{.ChecksumType}}.checksum"
+      output              = "stage${var.build_stage}/kvm/${source.name}/${var.os}-${var.os_ver}-${source.name}.qcow2.{{.ChecksumType}}.checksum"
     }
 
     #post-processor "manifest" {
