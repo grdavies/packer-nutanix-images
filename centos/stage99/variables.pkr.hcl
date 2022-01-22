@@ -33,5 +33,5 @@ variable "memory" {
 }
 variable "build_stage" {
   type = number
-  default = 3
+  default = 99
 }

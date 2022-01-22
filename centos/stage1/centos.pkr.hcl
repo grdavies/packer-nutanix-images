@@ -10,7 +10,7 @@ packer {
 source "qemu" "basic" {
   iso_url             = var.iso_url
   iso_checksum        = "file:${var.iso_checksum_url}"
-  output_directory    = "stage1/kvm"
+  output_directory    = "stage${var.build_stage}/kvm"
   cpus                = var.cpus
   memory              = var.memory
   shutdown_command    = var.shutdown_command
@@ -36,7 +36,7 @@ source "qemu" "basic" {
 source "qemu" "lvm" {
   iso_url             = var.iso_url
   iso_checksum        = "file:${var.iso_checksum_url}"
-  output_directory    = "stage1/kvm"
+  output_directory    = "stage${var.build_stage}/kvm"
   cpus                = var.cpus
   memory              = var.memory
   shutdown_command    = var.shutdown_command
@@ -61,7 +61,7 @@ source "qemu" "lvm" {
 
 build {
   # Create base OS images for further customization
-  name = "stage1-base-images"
+  name = "stage1"
 
   sources = [
     "source.qemu.basic",
@@ -73,7 +73,11 @@ build {
     post-processor "checksum" {
       checksum_types      = [ "md5" ]
       keep_input_artifact = true
-      output              = "stage1/kvm/${var.os}-${var.os_ver}-${source.name}.{{.ChecksumType}}.checksum"
+      output              = "stage${var.build_stage}/kvm/${var.os}-${var.os_ver}-${source.name}.{{.ChecksumType}}.checksum"
+    }
+
+    post-processor "manifest" {
+      output = "stage${var.build_stage}/kvm/manifest.json"
     }
   }
 

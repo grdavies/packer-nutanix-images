@@ -7,11 +7,11 @@ packer {
   }
 }
 
-source "qemu" "stage3-ntnx-centos-hardened" {
+source "qemu" "basic-ntnx-hardened" {
   disk_image          = true
   iso_url             = "stage2/kvm/ntnx-${var.os}-${var.os_ver}-ahv-x86_64.qcow2"
-  iso_checksum        = "file:stage1/kvm/ntnx-${var.os}-${var.os_ver}-basic.md5.checksum"
-  output_directory    = "stage3/kvm"
+  iso_checksum        = "file:stage2/kvm/ntnx-${var.os}-${var.os_ver}-basic.md5.checksum"
+  output_directory    = "stage${var.build_stage}/kvm"
   cpus                = var.cpus
   memory              = var.memory
   shutdown_command    = var.shutdown_command
@@ -22,7 +22,7 @@ source "qemu" "stage3-ntnx-centos-hardened" {
   ssh_username        = "root"
   ssh_password        = "nutanix/4u"
   ssh_timeout         = "60m"
-  vm_name             = "hardened-ntnx-${var.os}-${var.os_ver}-ahv-x86_64.qcow2"
+  vm_name             = "${var.os}-${var.os_ver}-${source.name}.qcow2"
   net_device          = "virtio-net"
   disk_interface      = "virtio"
   boot_wait           = "10s"
@@ -32,11 +32,11 @@ source "qemu" "stage3-ntnx-centos-hardened" {
   disk_compression    = true
 }
 
-source "qemu" "stage3-ntnx-centos-lvm-hardened" {
+source "qemu" "lvm-ntnx-hardened" {
   disk_image          = true
   iso_url             = "stage2/kvm/ntnx-${var.os}-${var.os_ver}-ahv-lvm-x86_64.qcow2"
-  iso_checksum        = "file:stage1/kvm/${var.os}-${var.os_ver}-lvm.md5.checksum"
-  output_directory    = "stage3/kvm"
+  iso_checksum        = "file:stage2/kvm/${var.os}-${var.os_ver}-lvm.md5.checksum"
+  output_directory    = "stage${var.build_stage}/kvm"
   cpus                = var.cpus
   memory              = var.memory
   shutdown_command    = var.shutdown_command
@@ -47,7 +47,7 @@ source "qemu" "stage3-ntnx-centos-lvm-hardened" {
   ssh_username        = "root"
   ssh_password        = "nutanix/4u"
   ssh_timeout         = "60m"
-  vm_name             = "hardened-ntnx-${var.os}-${var.os_ver}-ahv-lvm-x86_64.qcow2"
+  vm_name             = "${var.os}-${var.os_ver}-${source.name}.qcow2"
   net_device          = "virtio-net"
   disk_interface      = "virtio"
   boot_wait           = "10s"
@@ -59,27 +59,26 @@ source "qemu" "stage3-ntnx-centos-lvm-hardened" {
 
 build {
   # Create base OS images for further customization
-  name = "step2-ntnx-images"
+  name = "stage3"
+
+  sources = [
+    "source.qemu.basic-ntnx-hardened",
+    "source.qemu.lvm-ntnx-hardened",
+  ]
 
   # Post Processors
   post-processors {
     post-processor "checksum" {
       checksum_types      = [ "md5" ]
       keep_input_artifact = true
-      output              = "stage1/kvm/${source.name}.{{.ChecksumType}}.checksum"
+      output              = "stage${var.build_stage}/kvm/${var.os}-${var.os_ver}-${source.name}.{{.ChecksumType}}.checksum"
     }
 
     post-processor "manifest" {
-      output = "stage1/kvm/manifest.json"
+      output = "stage${var.build_stage}/kvm/manifest.json"
     }
 
   }
-
-  sources = [
-    "source.qemu.stage3-ntnx-centos-hardened",
-    "source.qemu.stage3-ntnx-centos-lvm-hardened",
-  ]
-
 
   # Run scripts to apply OS hardening
   provisioner "shell" {

@@ -7,10 +7,10 @@ packer {
   }
 }
 
-source "qemu" "basic-ntnx" {
+source "qemu" "basic-ntnx-template" {
   disk_image          = true
-  iso_url             = "stage1/kvm/${var.os}-${var.os_ver}-basic.qcow2"
-  iso_checksum        = "file:stage1/kvm/${var.os}-${var.os_ver}-basic.md5.checksum"
+  iso_url             = "stage2/kvm/ntnx-${var.os}-${var.os_ver}-basic-ntnx-x86_64.qcow2"
+  iso_checksum        = "file:stage2/kvm/${var.os}-${var.os_ver}-basic-ntnx.md5.checksum"
   output_directory    = "stage${var.build_stage}/kvm"
   cpus                = var.cpus
   memory              = var.memory
@@ -32,10 +32,60 @@ source "qemu" "basic-ntnx" {
   disk_compression    = true
 }
 
-source "qemu" "lvm-ntnx" {
+source "qemu" "lvm-ntnx-template" {
   disk_image          = true
-  iso_url             = "stage1/kvm/${var.os}-${var.os_ver}-lvm.qcow2"
-  iso_checksum        = "file:stage1/kvm/${var.os}-${var.os_ver}-lvm.md5.checksum"
+  iso_url             = "stage2/kvm/ntnx-${var.os}-${var.os_ver}-lvm-ntnx-x86_64.qcow2"
+  iso_checksum        = "file:stage2/kvm/${var.os}-${var.os_ver}-lvm-ntnx.md5.checksum"
+  output_directory    = "stage${var.build_stage}/kvm"
+  cpus                = var.cpus
+  memory              = var.memory
+  shutdown_command    = var.shutdown_command
+  disk_size           = var.disk_size
+  format              = "qcow2"
+  accelerator         = "kvm"
+  http_directory      = "http"
+  ssh_username        = "root"
+  ssh_password        = "nutanix/4u"
+  ssh_timeout         = "60m"
+  vm_name             = "${var.os}-${var.os_ver}-${source.name}.qcow2"
+  net_device          = "virtio-net"
+  disk_interface      = "virtio"
+  boot_wait           = "10s"
+  headless            = true
+  disk_detect_zeroes  = "unmap"
+  skip_compaction     = false
+  disk_compression    = true
+}
+
+source "qemu" "basic-ntnx-hardened-template" {
+  disk_image          = true
+  iso_url             = "stage3/kvm/ntnx-${var.os}-${var.os_ver}-basic-ntnx-hardened-x86_64.qcow2"
+  iso_checksum        = "file:stage3/kvm/${var.os}-${var.os_ver}-basic-ntnx-hardened.md5.checksum"
+  output_directory    = "stage${var.build_stage}/kvm"
+  cpus                = var.cpus
+  memory              = var.memory
+  shutdown_command    = var.shutdown_command
+  disk_size           = var.disk_size
+  format              = "qcow2"
+  accelerator         = "kvm"
+  http_directory      = "http"
+  ssh_username        = "root"
+  ssh_password        = "nutanix/4u"
+  ssh_timeout         = "60m"
+  vm_name             = "${var.os}-${var.os_ver}-${source.name}.qcow2"
+  net_device          = "virtio-net"
+  disk_interface      = "virtio"
+  boot_wait           = "10s"
+  headless            = true
+  disk_detect_zeroes  = "unmap"
+  skip_compaction     = false
+  disk_compression    = true
+}
+
+source "qemu" "lvm-ntnx-hardened-template" {
+  disk_image          = true
+  iso_url             = "stage3/kvm/ntnx-${var.os}-${var.os_ver}-lvm-ntnx-hardened-x86_64.qcow2"
+  iso_checksum        = "file:stage3/kvm/${var.os}-${var.os_ver}-lvm-ntnx-hardened.md5.checksum"
   output_directory    = "stage${var.build_stage}/kvm"
   cpus                = var.cpus
   memory              = var.memory
@@ -59,11 +109,13 @@ source "qemu" "lvm-ntnx" {
 
 build {
   # Create base OS images for further customization
-  name = "stage2"
+  name = "stage99"
 
   sources = [
-    "source.qemu.basic-ntnx",
-    "source.qemu.lvm-ntnx",
+    "source.qemu.basic-ntnx-template",
+    "source.qemu.lvm-ntnx-template",
+    "source.qemu.basic-ntnx-hardened-template",
+    "source.qemu.lvm-ntnx-hardened-template",
   ]
 
   # Post Processors
@@ -78,21 +130,6 @@ build {
       output = "stage${var.build_stage}/kvm/manifest.json"
     }
 
-  }
-
-  # Run scripts to apply Nutanix best practices
-  provisioner "shell" {
-    execute_command   = "sudo -E bash '{{ .Path }}'"
-    scripts           = [
-                          "scripts/nutanix/ntnx_disable_transparent_hugepage.sh",
-                          "scripts/nutanix/ntnx_grub2_mkconfig.sh",
-                          "scripts/nutanix/ntnx_iscsi_settings.sh",
-                          "scripts/nutanix/ntnx_kernel_settings.sh",
-                          "scripts/nutanix/ntnx_set_disk_timeout.sh",
-                          "scripts/nutanix/ntnx_set_max_sectors_kb.sh",
-                          "scripts/nutanix/ntnx_set_noop.sh",
-                        ]
-    expect_disconnect = false
   }
 
   # Run scripts to prepare to seal the OS image
@@ -124,6 +161,7 @@ build {
                           "scripts/linux-sysprep/sysprep-op-tmp-files.sh",
                           "scripts/linux-sysprep/sysprep-op-logfiles.sh",
                           "scripts/linux-sysprep/sysprep-op-bash-history.sh",
+                          "scripts/linux-common/reset-root-password.sh",
                          ]
     expect_disconnect  = false
   }

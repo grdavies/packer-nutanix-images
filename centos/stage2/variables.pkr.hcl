@@ -31,3 +31,7 @@ variable "cpus" {
 variable "memory" {
   default = 1024
 }
+variable "build_stage" {
+  type = number
+  default = 2
+}
