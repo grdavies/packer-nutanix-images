@@ -9,9 +9,9 @@ packer {
 
 source "qemu" "basic-ntnx" {
   disk_image          = true
-  iso_url             = "stage1/kvm/${var.os}-${var.os_ver}-basic.qcow2"
-  iso_checksum        = "file:stage1/kvm/build.md5.checksum"
-  output_directory    = "stage${var.build_stage}/kvm"
+  iso_url             = "stage1/kvm/basic/${var.os}-${var.os_ver}-basic.qcow2"
+  iso_checksum        = "file:stage1/kvm/basic/${var.os}-${var.os_ver}-basic.md5.checksum"
+  output_directory    = "stage${var.build_stage}/kvm/${source.name}"
   cpus                = var.cpus
   memory              = var.memory
   shutdown_command    = var.shutdown_command
@@ -34,9 +34,9 @@ source "qemu" "basic-ntnx" {
 
 source "qemu" "lvm-ntnx" {
   disk_image          = true
-  iso_url             = "stage1/kvm/${var.os}-${var.os_ver}-lvm.qcow2"
-  iso_checksum        = "file:stage1/kvm/build.md5.checksum"
-  output_directory    = "stage${var.build_stage}/kvm"
+  iso_url             = "stage1/kvm/lvm/${var.os}-${var.os_ver}-lvm.qcow2"
+  iso_checksum        = "file:stage1/kvm/lvm/${var.os}-${var.os_ver}-lvm.md5.checksum"
+  output_directory    = "stage${var.build_stage}/kvm/${source.name}"
   cpus                = var.cpus
   memory              = var.memory
   shutdown_command    = var.shutdown_command
@@ -71,7 +71,7 @@ build {
     post-processor "checksum" {
       checksum_types      = [ "md5" ]
       keep_input_artifact = true
-      output              = "stage${var.build_stage}/kvm/build.{{.ChecksumType}}.checksum"
+      output              = "stage${var.build_stage}/kvm/${source.name}/${var.os}-${var.os_ver}-${source.name}.{{.ChecksumType}}.checksum"
     }
 
     #post-processor "manifest" {
