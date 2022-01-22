@@ -9,8 +9,8 @@ packer {
 
 source "qemu" "basic-ntnx-hardened" {
   disk_image          = true
-  iso_url             = "stage2/kvm/ntnx-${var.os}-${var.os_ver}-ahv-x86_64.qcow2"
-  iso_checksum        = "file:stage2/kvm/ntnx-${var.os}-${var.os_ver}-basic.md5.checksum"
+  iso_url             = "stage2/kvm/ntnx-${var.os}-${var.os_ver}-basic-ntnx.qcow2"
+  iso_checksum        = "file:stage2/kvm/ntnx-${var.os}-${var.os_ver}-basic-ntnx.md5.checksum"
   output_directory    = "stage${var.build_stage}/kvm"
   cpus                = var.cpus
   memory              = var.memory
@@ -34,8 +34,8 @@ source "qemu" "basic-ntnx-hardened" {
 
 source "qemu" "lvm-ntnx-hardened" {
   disk_image          = true
-  iso_url             = "stage2/kvm/ntnx-${var.os}-${var.os_ver}-ahv-lvm-x86_64.qcow2"
-  iso_checksum        = "file:stage2/kvm/${var.os}-${var.os_ver}-lvm.md5.checksum"
+  iso_url             = "stage2/kvm/ntnx-${var.os}-${var.os_ver}-lvm-ntnx.qcow2"
+  iso_checksum        = "file:stage2/kvm/ntnx-${var.os}-${var.os_ver}-lvm-ntnx.md5.checksum"
   output_directory    = "stage${var.build_stage}/kvm"
   cpus                = var.cpus
   memory              = var.memory
