@@ -238,9 +238,9 @@ build {
 
   # Remove log files
   provisioner "shell" {
-    except = [ "source.qemu.basic-ntnx-hardened-template", "source.qemu.lvm-ntnx-hardened-template" ]
     script = "scripts/linux-sysprep/sysprep-op-logfiles.sh"
     expect_disconnect  = false
+    except = [ "qemu.basic-ntnx-hardened-template", "qemu.lvm-ntnx-hardened-template" ]
   }
 
   # Remove bash command history files
