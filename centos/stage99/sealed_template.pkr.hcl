@@ -244,12 +244,9 @@ build {
 
   # Remove log files
   provisioner "shell" {
+    except = [ "source.qemu.basic-ntnx-hardened-template", "source.qemu.lvm-ntnx-hardened-template" ]
     script = "scripts/linux-sysprep/sysprep-op-bash-history.sh"
     expect_disconnect  = false
-    only = [
-      "source.qemu.basic-ntnx-template",
-      "source.qemu.lvm-ntnx-template",
-      ]
   }
 
   # Reset the root password to a randomly generated string
