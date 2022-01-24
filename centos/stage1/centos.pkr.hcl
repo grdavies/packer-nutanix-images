@@ -76,9 +76,9 @@ build {
       output              = "stage${var.build_stage}/kvm/${source.name}/${var.os}-${var.os_ver}-${source.name}.{{.ChecksumType}}.checksum"
     }
 
-    #post-processor "manifest" {
-    #  output = "stage${var.build_stage}/kvm/manifest.json"
-    #}
+    post-processor "manifest" {
+      output = "stage${var.build_stage}/kvm/${source.name}/manifest.json"
+    }
   }
 
   # Run updates
