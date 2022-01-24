@@ -149,7 +149,7 @@ build {
   provisioner "shell" {
     script              = "scripts/linux-common/cleanup-disk-space.sh"
     expect_disconnect   = false
-    timeout             = 30m
+    timeout             = "30m"
   }
 
   # Remove any host specific RPM database files
