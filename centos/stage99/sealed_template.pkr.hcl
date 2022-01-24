@@ -236,15 +236,15 @@ build {
     expect_disconnect  = false
   }
 
-  #
+  # Remove log files
   provisioner "shell" {
+    except = [ "source.qemu.basic-ntnx-hardened-template", "source.qemu.lvm-ntnx-hardened-template" ]
     script = "scripts/linux-sysprep/sysprep-op-logfiles.sh"
     expect_disconnect  = false
   }
 
-  # Remove log files
+  # Remove bash command history files
   provisioner "shell" {
-    except = [ "source.qemu.basic-ntnx-hardened-template", "source.qemu.lvm-ntnx-hardened-template" ]
     script = "scripts/linux-sysprep/sysprep-op-bash-history.sh"
     expect_disconnect  = false
   }
