@@ -113,8 +113,8 @@ build {
 
   sources = [
     "source.qemu.basic-ntnx-template",
-    "source.qemu.lvm-ntnx-template",
     "source.qemu.basic-ntnx-hardened-template",
+    "source.qemu.lvm-ntnx-template",
     "source.qemu.lvm-ntnx-hardened-template",
   ]
 
