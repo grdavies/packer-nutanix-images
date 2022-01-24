@@ -132,37 +132,124 @@ build {
 
   }
 
-  # Run scripts to prepare to seal the OS image
+  ## Run scripts to prepare to seal the OS image
+  # Cleanup network interface configurations
   provisioner "shell" {
-    execute_command    = "sudo -E bash '{{ .Path }}'"
-    scripts            = [
-                          "scripts/linux-common/cleanup-network.sh",
-                          "scripts/linux-sysprep/sysprep-op-dhcp-client-state.sh",
-                         ]
+    script = "scripts/linux-common/cleanup-network.sh"
     expect_disconnect  = true
   }
+
+  # Remove DHCP client lease information
   provisioner "shell" {
-    execute_command    = "sudo -E bash '{{ .Path }}'"
-    scripts            = [
-                          "scripts/linux-common/cleanup-disk-space.sh",
-                          "scripts/linux-common/cleanup-rpm-db.sh",
-                          "scripts/linux-common/get_cloud-init_config.sh",
-                          "scripts/linux-common/cleanup-network.sh",
-                          "scripts/centos/security_hardening_sshd.sh",
-                          "scripts/linux-sysprep/sysprep-op-cloud-init.sh",
-                          "scripts/linux-sysprep/sysprep-op-crash-data.sh",
-                          "scripts/linux-sysprep/sysprep-op-firewall-rules.sh",
-                          "scripts/centos/security_selinux_set_enforcing.sh",
-                          "scripts/linux-sysprep/sysprep-op-machine-id.sh",
-                          "scripts/linux-sysprep/sysprep-op-package-manager-cache.sh",
-                          "scripts/linux-sysprep/sysprep-op-package-manager-db.sh",
-                          "scripts/linux-sysprep/sysprep-op-ssh-hostkeys.sh",
-                          "scripts/linux-sysprep/sysprep-op-yum-uuid.sh",
-                          "scripts/linux-sysprep/sysprep-op-tmp-files.sh",
-                          "scripts/linux-sysprep/sysprep-op-logfiles.sh",
-                          "scripts/linux-sysprep/sysprep-op-bash-history.sh",
-                          "scripts/linux-common/reset-root-password.sh",
-                         ]
+    script = "scripts/linux-sysprep/sysprep-op-dhcp-client-state.sh"
+    expect_disconnect  = true
+  }
+
+  # Zero out the free space
+  provisioner "shell" {
+    script = "scripts/linux-common/cleanup-disk-space.sh"
+    expect_disconnect  = false
+  }
+
+  # Remove any host specific RPM database files
+  provisioner "shell" {
+    script = "scripts/linux-common/cleanup-rpm-db.sh"
+    expect_disconnect  = false
+  }
+
+  # Remove network configuration
+  provisioner "shell" {
+    script = "scripts/linux-common/cleanup-network.sh"
+    expect_disconnect  = false
+  }
+
+  # Apply sshd best practices for security
+  provisioner "shell" {
+    script = "scripts/centos/security_hardening_sshd.sh"
+    expect_disconnect  = true
+  }
+
+  # Remove all cloud-init run-time data and logs
+  provisioner "shell" {
+    script = "scripts/linux-sysprep/sysprep-op-cloud-init.sh"
+    expect_disconnect  = false
+  }
+
+  # Print cloud-config configuration to log
+  provisioner "shell" {
+    script = "scripts/linux-common/get_cloud-init_config.sh"
+    expect_disconnect  = false
+  }
+
+  # Remove crash data
+  provisioner "shell" {
+    script = "scripts/linux-sysprep/sysprep-op-crash-data.sh"
+    expect_disconnect  = false
+  }
+
+  # Remove any custom firewall rules or firewalld configuration
+  provisioner "shell" {
+    script = "scripts/linux-sysprep/sysprep-op-firewall-rules.sh"
+    expect_disconnect  = false
+  }
+
+  # Set selinux to enforcing mode
+  provisioner "shell" {
+    script = "scripts/centos/security_selinux_set_enforcing.sh"
+    expect_disconnect  = false
+  }
+
+  # Remove the local machine id
+  provisioner "shell" {
+    script = "scripts/linux-sysprep/sysprep-op-machine-id.sh"
+    expect_disconnect  = false
+  }
+
+  # Remove cache files associated with the guests package manager
+  provisioner "shell" {
+    script = "scripts/linux-sysprep/sysprep-op-package-manager-cache.sh"
+    expect_disconnect  = false
+  }
+
+  # Remove dynamically created package manager files
+  provisioner "shell" {
+    script = "scripts/linux-sysprep/sysprep-op-package-manager-db.sh"
+    expect_disconnect  = false
+  }
+
+  #
+  provisioner "shell" {
+    script = "scripts/linux-sysprep/sysprep-op-ssh-hostkeys.sh"
+    expect_disconnect  = false
+  }
+
+  # Remove the yum package manager UUID
+  provisioner "shell" {
+    script = "scripts/linux-sysprep/sysprep-op-yum-uuid.sh"
+    expect_disconnect  = false
+  }
+
+  # Remove temporary files
+  provisioner "shell" {
+    script = "scripts/linux-sysprep/sysprep-op-tmp-files.sh"
+    expect_disconnect  = false
+  }
+
+  #
+  provisioner "shell" {
+    script = "scripts/linux-sysprep/sysprep-op-logfiles.sh"
+    expect_disconnect  = false
+  }
+
+  # Remove log files
+  provisioner "shell" {
+    script = "scripts/linux-sysprep/sysprep-op-bash-history.sh"
+    expect_disconnect  = false
+  }
+
+  # Reset the root password to a randomly generated string
+  provisioner "shell" {
+    script = "scripts/linux-common/reset-root-password.sh"
     expect_disconnect  = false
   }
 }
