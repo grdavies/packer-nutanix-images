@@ -80,18 +80,34 @@ build {
 
   }
 
-  # Run scripts to apply Nutanix best practices
+  ## Set Nutanix best practices
   provisioner "shell" {
-    execute_command   = "sudo -E bash '{{ .Path }}'"
-    scripts           = [
-                          "scripts/nutanix/ntnx_disable_transparent_hugepage.sh",
-                          "scripts/nutanix/ntnx_grub2_mkconfig.sh",
-                          "scripts/nutanix/ntnx_iscsi_settings.sh",
-                          "scripts/nutanix/ntnx_kernel_settings.sh",
-                          "scripts/nutanix/ntnx_set_disk_timeout.sh",
-                          "scripts/nutanix/ntnx_set_max_sectors_kb.sh",
-                          "scripts/nutanix/ntnx_set_noop.sh",
-                        ]
-    expect_disconnect = false
+    script = "scripts/nutanix/ntnx_disable_transparent_hugepage.sh"
+    expect_disconnect   = false
+  }
+  provisioner "shell" {
+    script = "scripts/nutanix/ntnx_grub2_mkconfig.sh"
+    expect_disconnect   = false
+  }
+  provisioner "shell" {
+    script = "scripts/nutanix/ntnx_iscsi_settings.sh"
+    expect_disconnect   = false
+  }
+  provisioner "shell" {
+    script = "scripts/nutanix/ntnx_kernel_settings.sh"
+    expect_disconnect   = false
+  }
+  provisioner "shell" {
+    script = "scripts/nutanix/ntnx_set_disk_timeout.sh"
+    expect_disconnect   = false
+  }
+  # Cleanup network interface configurations
+  provisioner "shell" {
+    script = "scripts/nutanix/ntnx_set_max_sectors_kb.sh"
+    expect_disconnect   = false
+  }
+  provisioner "shell" {
+    script = "scripts/nutanix/ntnx_set_noop.sh"
+    expect_disconnect   = false
   }
 }
