@@ -109,7 +109,7 @@ source "qemu" "lvm-ntnx-hardened-template" {
 
 build {
   # Create base OS images for further customization
-  name = "stage99"
+  name = "stage2"
 
   sources = [
     "source.qemu.basic-ntnx-template",
