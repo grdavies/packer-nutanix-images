@@ -59,8 +59,8 @@ source "qemu" "lvm-ntnx-template" {
 
 source "qemu" "basic-ntnx-hardened-template" {
   disk_image          = true
-  iso_url             = "stage3/kvm/basic-ntnx-hardened/ntnx-${var.os}-${var.os_ver}-basic-ntnx-hardened.qcow2"
-  iso_checksum        = "file:stage3/kvm/basic-ntnx-hardened/ntnx-${var.os}-${var.os_ver}-basic-ntnx-hardened.md5.checksum"
+  iso_url             = "stage3/kvm/basic-ntnx-hardened/${var.os}-${var.os_ver}-basic-ntnx-hardened.qcow2"
+  iso_checksum        = "file:stage3/kvm/basic-ntnx-hardened/${var.os}-${var.os_ver}-basic-ntnx-hardened.md5.checksum"
   output_directory    = "stage${var.build_stage}/kvm/${source.name}"
   cpus                = var.cpus
   memory              = var.memory
@@ -84,8 +84,8 @@ source "qemu" "basic-ntnx-hardened-template" {
 
 source "qemu" "lvm-ntnx-hardened-template" {
   disk_image          = true
-  iso_url             = "stage3/kvm/lvm-ntnx-hardened/ntnx-${var.os}-${var.os_ver}-lvm-ntnx-hardened.qcow2"
-  iso_checksum        = "file:stage3/kvm/lvm-ntnx-hardened/ntnx-${var.os}-${var.os_ver}-lvm-ntnx-hardened.md5.checksum"
+  iso_url             = "stage3/kvm/lvm-ntnx-hardened/${var.os}-${var.os_ver}-lvm-ntnx-hardened.qcow2"
+  iso_checksum        = "file:stage3/kvm/lvm-ntnx-hardened/${var.os}-${var.os_ver}-lvm-ntnx-hardened.md5.checksum"
   output_directory    = "stage${var.build_stage}/kvm/${source.name}"
   cpus                = var.cpus
   memory              = var.memory
