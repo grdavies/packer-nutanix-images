@@ -80,27 +80,80 @@ build {
 
   }
 
-  # Run scripts to apply OS hardening
+  ## Security Hardening
   provisioner "shell" {
-    execute_command   = "sudo -E bash '{{ .Path }}'"
-    scripts           = [
-                          "scripts/centos/security_hardening_etckeeper.sh",
-                          "scripts/centos/security_hardening_repos.sh",
-                          "scripts/centos/security_hardening_pam.sh",
-                          "scripts/centos/security_hardening_modprobe.sh",
-                          "scripts/centos/security_hardening_modprobe.sh",
-                          "scripts/centos/security_firewalld_enable.sh",
-                          "scripts/centos/security_hardening_umask.sh",
-                          "scripts/centos/security_hardening_fstab.sh",
-                          "scripts/centos/security_hardening_passwords.sh",
-                          "scripts/centos/security_hardening_tcp_wrappers.sh",
-                          "scripts/centos/security_hardening_secure_tty.sh",
-                          "scripts/centos/security_hardening_auditd.sh",
-                          "scripts/centos/security_hardening_oscap.sh",
-                          "scripts/centos/security_hardening_grub.sh",
-                          "scripts/centos/security_hardening_crond.sh",
-                          "scripts/centos/security_hardening_aide.sh",
-                        ]
-    expect_disconnect = false
+    script = "scripts/centos/security_hardening_etckeeper.sh"
+    expect_disconnect   = false
+    only = [ "qemu.basic-ntnx-hardened-template", "qemu.lvm-ntnx-hardened-template", ]
+  }
+  provisioner "shell" {
+    script = "scripts/centos/security_hardening_repos.sh"
+    expect_disconnect   = false
+    only = [ "qemu.basic-ntnx-hardened-template", "qemu.lvm-ntnx-hardened-template", ]
+  }
+  provisioner "shell" {
+    script = "scripts/centos/security_hardening_pam.sh"
+    expect_disconnect   = false
+    only = [ "qemu.basic-ntnx-hardened-template", "qemu.lvm-ntnx-hardened-template", ]
+  }
+  provisioner "shell" {
+    script = "scripts/centos/security_hardening_modprobe.sh"
+    expect_disconnect   = false
+    only = [ "qemu.basic-ntnx-hardened-template", "qemu.lvm-ntnx-hardened-template", ]
+  }
+  provisioner "shell" {
+    script = "scripts/centos/security_firewalld_enable.sh"
+    expect_disconnect   = false
+    only = [ "qemu.basic-ntnx-hardened-template", "qemu.lvm-ntnx-hardened-template", ]
+  }
+  provisioner "shell" {
+    script = "scripts/centos/security_hardening_umask.sh"
+    expect_disconnect   = false
+    only = [ "qemu.basic-ntnx-hardened-template", "qemu.lvm-ntnx-hardened-template", ]
+  }
+  provisioner "shell" {
+    script = "scripts/centos/security_hardening_fstab.sh"
+    expect_disconnect   = false
+    only = [ "qemu.basic-ntnx-hardened-template", "qemu.lvm-ntnx-hardened-template", ]
+  }
+  provisioner "shell" {
+    script = "scripts/centos/security_hardening_passwords.sh"
+    expect_disconnect   = false
+    only = [ "qemu.basic-ntnx-hardened-template", "qemu.lvm-ntnx-hardened-template", ]
+  }
+  provisioner "shell" {
+    script = "scripts/centos/security_hardening_tcp_wrappers.sh"
+    expect_disconnect   = false
+    only = [ "qemu.basic-ntnx-hardened-template", "qemu.lvm-ntnx-hardened-template", ]
+  }
+  provisioner "shell" {
+    script = "scripts/centos/security_hardening_secure_tty.sh"
+    expect_disconnect   = false
+    only = [ "qemu.basic-ntnx-hardened-template", "qemu.lvm-ntnx-hardened-template", ]
+  }
+  provisioner "shell" {
+    script = "scripts/centos/security_hardening_auditd.sh"
+    expect_disconnect   = false
+    only = [ "qemu.basic-ntnx-hardened-template", "qemu.lvm-ntnx-hardened-template", ]
+  }
+  provisioner "shell" {
+    script = "scripts/centos/security_hardening_oscap.sh"
+    expect_disconnect   = false
+    only = [ "qemu.basic-ntnx-hardened-template", "qemu.lvm-ntnx-hardened-template", ]
+  }
+  provisioner "shell" {
+    script = "scripts/centos/security_hardening_grub.sh"
+    expect_disconnect   = false
+    only = [ "qemu.basic-ntnx-hardened-template", "qemu.lvm-ntnx-hardened-template", ]
+  }
+  provisioner "shell" {
+    script = "scripts/centos/security_hardening_crond.sh"
+    expect_disconnect   = false
+    only = [ "qemu.basic-ntnx-hardened-template", "qemu.lvm-ntnx-hardened-template", ]
+  }
+  provisioner "shell" {
+    script = "scripts/centos/security_hardening_aide.sh"
+    expect_disconnect   = false
+    only = [ "qemu.basic-ntnx-hardened-template", "qemu.lvm-ntnx-hardened-template", ]
   }
 }
