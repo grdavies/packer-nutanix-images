@@ -251,11 +251,11 @@ build {
     script              = "scripts/linux-sysprep/sysprep-op-dhcp-client-state.sh"
     expect_disconnect   = true
   }
-  provisioner "shell" {
-    script              = "scripts/linux-common/cleanup-disk-space.sh"
-    expect_disconnect   = false
-    timeout             = "1h"
-  }
+  #provisioner "shell" {
+  #  script              = "scripts/linux-common/cleanup-disk-space.sh"
+  #  expect_disconnect   = false
+  #  timeout             = "1h"
+  #}
   provisioner "shell" {
     script              = "scripts/linux-common/cleanup-rpm-db.sh"
     expect_disconnect   = false
