@@ -111,9 +111,9 @@ jobs:
         run: jfrog rt u ${{ matrix.os }}/stage2/kvm/lvm-ntnx-template/${{ matrix.os }}-${{ matrix.os_ver }}-lvm-ntnx-template.md5.checksum ntnx-images/${{ matrix.os }}/hardened/${{ matrix.os }}-${{ matrix.os_ver }}-ntnx.checksum --project ntnx --flat --target-props "os_type=${{ matrix.os_type }};os=${{ matrix.os }};os_ver=${{ matrix.os_ver }};os_arch=x86_64"
 
       - name: Upload ${{ matrix.os }} ${{ matrix.os_ver }} ${{ matrix.os_build }} Nutanix Best Practice Image Hardened (LVM Partitioning)
-        run: jfrog rt u ${{ matrix.os }}/stage2/kvm/lvm-ntnx-hardened-template/${{ matrix.os }}-${{ matrix.os_ver }}-lvm-ntnx-hardened-template.qcow2 ntnx-images/${{ matrix.os }}/hardened/${{ matrix.os }}-${{ matrix.os_ver }}-ntnx.qcow2 --project ntnx --flat --target-props "os_type=${{ matrix.os_type }};os=${{ matrix.os }};os_ver=${{ matrix.os_ver }};os_arch=x86_64"
+        run: jfrog rt u ${{ matrix.os }}/stage2/kvm/lvm-ntnx-hardened-template/${{ matrix.os }}-${{ matrix.os_ver }}-lvm-ntnx-hardened-template.qcow2 ntnx-images/${{ matrix.os }}/hardened/${{ matrix.os }}-${{ matrix.os_ver }}-lvm-ntnx.qcow2 --project ntnx --flat --target-props "os_type=${{ matrix.os_type }};os=${{ matrix.os }};os_ver=${{ matrix.os_ver }};os_arch=x86_64"
       - name: Upload ${{ matrix.os }} ${{ matrix.os_ver }} ${{ matrix.os_build }} Nutanix Best Practice Image Hardened Checksum (LVM Partitioning)
-        run: jfrog rt u ${{ matrix.os }}/stage2/kvm/lvm-ntnx-hardened-template/${{ matrix.os }}-${{ matrix.os_ver }}-lvm-ntnx-hardened-template.md5.checksum ntnx-images/${{ matrix.os }}/hardened/${{ matrix.os }}-${{ matrix.os_ver }}-ntnx.checksum --project ntnx --flat --target-props "os_type=${{ matrix.os_type }};os=${{ matrix.os }};os_ver=${{ matrix.os_ver }};os_arch=x86_64"
+        run: jfrog rt u ${{ matrix.os }}/stage2/kvm/lvm-ntnx-hardened-template/${{ matrix.os }}-${{ matrix.os_ver }}-lvm-ntnx-hardened-template.md5.checksum ntnx-images/${{ matrix.os }}/hardened/${{ matrix.os }}-${{ matrix.os_ver }}-lvm-ntnx.checksum --project ntnx --flat --target-props "os_type=${{ matrix.os_type }};os=${{ matrix.os }};os_ver=${{ matrix.os_ver }};os_arch=x86_64"
 
   cleanup:
     runs-on: [ self-hosted, packer ]
