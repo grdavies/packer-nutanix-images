@@ -8,10 +8,10 @@ os                = "windows"
 os_ver            = "2019"
 os_edition        = "std"
 os_install_type   = "full"
-floppy_files      = ""
 kms_key           = "N69G4-B89J2-4G8F4-WWYCC-J464C"
 os_language       = "en-US"
 os_keyboard       = "en-US"
+floppy_files      = []
 
 // Boot Settings
 boot_order       = "disk,cdrom"
@@ -25,7 +25,7 @@ communicator_timeout = "12h"
 
 // Provisioner Settings
 scripts = ["scripts/windows/windows-prepare.ps1"]
-inline = [
+inline_scripts = [
   "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))",
   "choco feature enable -n allowGlobalConfirmation",
   "Get-EventLog -LogName * | ForEach { Clear-EventLog -LogName $_.Log }"
