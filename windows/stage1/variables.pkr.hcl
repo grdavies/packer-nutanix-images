@@ -36,5 +36,5 @@ variable "build_stage" {
 }
 variable "shutdown_command" {
   type        = string
-  default     = "shutdown_command": "shutdown /s /t 10 /f /d p:4:1",
+  default     = "shutdown /s /t 10 /f /d p:4:1",
 }
