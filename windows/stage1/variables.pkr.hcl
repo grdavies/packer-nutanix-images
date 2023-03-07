@@ -32,7 +32,7 @@ variable "cpus" {
   default     = 2
 }
 variable "memory" {
-  default     = 1024
+  default     = 8192
 }
 variable "build_stage" {
   type        = number
@@ -76,7 +76,7 @@ variable "os_install_type" {
   description = "Whether install is full or core"
 }
 variable "boot_command" {
-  type        = list
+  type        = list(string)
   description = ""
 }
 variable "kms_key" {
@@ -92,14 +92,14 @@ variable "boot_wait" {
   description = ""
 }
 variable "scripts" {
-  type        = list
+  type        = list(string)
   description = ""
 }
 variable "inline_scripts" {
-  type        = list
+  type        = list(string)
   description = ""
 }
 variable "floppy_files" {
-  type        = list
+  type        = list(string)
   description = ""
 }
