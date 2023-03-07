@@ -1,4 +1,4 @@
-// windows/windows-2016-std.pkrvars.hcl
+// windows/windows-2019-std.pkrvars.hcl
 iso_url           = "https://software-download.microsoft.com/download/pr/17763.737.190906-2324.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us_1.iso"
 iso_checksum      = "3022424f777b66a698047ba1c37812026b9714c5"
 iso_checksum_type = "md5"
@@ -20,8 +20,11 @@ boot_command     = ["<spacebar>"]
 shutdown_command = "shutdown /s /t 10 /f /d p:4:1 /c \"Shutdown by Packer\""
 
 // Communicator Settings
-communicator_port    = 5985
-communicator_timeout = "12h"
+communicator_username     = "Administrator"
+communicator_password     = "Nutanix/4u"
+communicator_port         = 5985
+communicator_timeout      = "12h"
+communicator_pause        = "30m"
 
 // Provisioner Settings
 scripts = ["scripts/windows/windows-prepare.ps1"]
